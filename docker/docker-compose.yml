@@ -1,0 +1,96 @@
+version: '3.9'
+
+services:
+  postgres-db:
+    container_name: postgres
+    image: postgres:latest
+    command:
+      - "postgres"
+      - "-c"
+      - "max_connections=50"
+      - "-c"
+      - "shared_buffers=1GB"
+      - "-c"
+      - "effective_cache_size=4GB"
+      - "-c"
+      - "work_mem=16MB"
+      - "-c"
+      - "maintenance_work_mem=512MB"
+      - "-c"
+      - "random_page_cost=1.1"
+      - "-c"
+      - "temp_file_limit=10GB"
+      - "-c"
+      - "log_min_duration_statement=200ms"
+      - "-c"
+      - "idle_in_transaction_session_timeout=10s"
+      - "-c"
+      - "lock_timeout=1s"
+      - "-c"
+      - "statement_timeout=60s"
+      - "-c"
+      - "shared_preload_libraries=pg_stat_statements"
+      - "-c"
+      - "pg_stat_statements.max=10000"
+      - "-c"
+      - "pg_stat_statements.track=all"
+    restart: always
+    volumes:
+      - .:/docker-entrypoint-init-db.d
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: root_db
+    ports:
+      - "5433:5432"
+    networks:
+      - demo-network
+
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4:7.2
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "sharif@gmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "sharif123qwe"
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    volumes:
+      - .:/pgadmin-data:/var/lib/pgadmin
+    depends_on:
+      - postgres-db
+    ports:
+      - "5050:80"
+    restart: unless-stopped
+    networks:
+      - demo-network
+
+  start_dependencies:
+    image: dadarek/wait-for-dependencies:latest
+    depends_on:
+      - pgadmin
+    command:
+      - postgres-db:5433
+    networks:
+      - demo-network
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:21.1.1
+    ports:
+      - "8181:8080"
+    command: -v start-dev --import-realm
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin123
+      KC_DB: postgres
+      KC_DB_URL_HOST: postgres
+      KC_DB_URL_DATABASE: root_db
+      KC_DB_URL_PORT: 5432
+      KC_DB_USERNAME: root
+      KC_DB_PASSWORD: root
+    volumes:
+      - ./keycloak:/opt/keycloak/data/import
+    networks:
+      - demo-network
+
+
+networks:
+  demo-network:

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JetClientState">
+    <option name="draftsState">
+      <draftsState>
+        <option name="requests">
+          <list>
+            <requestState>
+              <option name="body">
+                <bodyState>
+                  <option name="raw" value="{&#10;  &quot;username&quot;: &quot;dovud&quot;,&#10;  &quot;password&quot;: &quot;password&quot;&#10;}" />
+                  <option name="type" value="JSON" />
+                </bodyState>
+              </option>
+              <option name="headers">
+                <list>
+                  <headerState>
+                    <option name="key" value="Content-Type" />
+                    <option name="value" value="application/json" />
+                  </headerState>
+                </list>
+              </option>
+              <option name="id" value="f29898ff-84d0-448f-a084-68b81c6ff7b9" />
+              <option name="method" value="POST" />
+              <option name="name" value="login-user" />
+              <option name="url" value="http://127.0.0.1:3005/v1/auth/login-user" />
+            </requestState>
+            <requestState>
+              <option name="body">
+                <bodyState>
+                  <option name="raw" value="{&#10;  &quot;user_id&quot;: &quot;c45e5eb8-e44d-4015-8460-063511d1530a&quot;&#10;}" />
+                  <option name="type" value="JSON" />
+                </bodyState>
+              </option>
+              <option name="headers">
+                <list>
+                  <headerState>
+                    <option name="key" value="Content-Type" />
+                    <option name="value" value="application/json" />
+                  </headerState>
+                </list>
+              </option>
+              <option name="id" value="ad551101-8b65-4fad-89ad-ebe226ff167b" />
+              <option name="method" value="POST" />
+              <option name="name" value="generate-otp" />
+              <option name="url" value="http://127.0.0.1:3005/v1/auth/generate-otp" />
+            </requestState>
+          </list>
+        </option>
+      </draftsState>
+    </option>
+    <option name="id" value="8744380d-37e7-4755-a5d5-184b16dc02c5" />
+  </component>
+</project>
